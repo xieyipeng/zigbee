@@ -4,7 +4,7 @@ import pymysql  # 导入pymysql包
 
 log = 0  # 设一个log变量用于记录单次接收次数
 s = serial.Serial('com7', 9600, timeout=2)  # 打开串口，配置串口
-db = pymysql.connect("localhost", "root", "1234", "zigbee")  # 打开数据库，配置数据库
+db = pymysql.connect("localhost", "root", "root", "zigbee")  # 打开数据库，配置数据库
 cursor = db.cursor()  # 数据库操作
 cursor.execute("DROP TABLE IF EXISTS Monitor_Data")  # 如果存在表则重新创建
 creatTab = """CREATE TABLE Monitor_Data( # 创建表
@@ -31,6 +31,7 @@ while True:  # 无限循环读取数据
 
     sql = "INSERT INTO Monitor_Data(LOG_ID,D_ID,TIME,T_DATA,H_DATA,L_DATA)VALUES('%d','%s','%s','%d','%d','%f')" % (
         log, did, local_time, td, hd, ld)  # 存入数据库
+    print(sql)
     cursor.execute(sql)  # 执行数据库语句
     db.commit()  # 提交
 
